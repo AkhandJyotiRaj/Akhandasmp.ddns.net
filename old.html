@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AkhandaSMP — The Ultimate Minecraft Server</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%238B6914'/%3E%3Crect width='16' height='5' fill='%235c8a1a'/%3E%3Crect x='0' y='0' width='1' height='1' fill='%233a6010'/%3E%3Crect x='3' y='1' width='1' height='1' fill='%233a6010'/%3E%3Crect x='7' y='0' width='2' height='1' fill='%233a6010'/%3E%3Crect x='12' y='1' width='1' height='1' fill='%233a6010'/%3E%3Crect x='15' y='0' width='1' height='1' fill='%233a6010'/%3E%3Crect x='1' y='2' width='2' height='1' fill='%233a6010'/%3E%3Crect x='10' y='2' width='3' height='1' fill='%233a6010'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #4ade80;
+    --green-dark: #16a34a;
+    --green-glow: #22c55e;
+    --dirt: #8B6914;
+    --stone: #9ca3af;
+    --diamond: #38bdf8;
+    --gold: #fbbf24;
+    --redstone: #ef4444;
+    --bg-dark: #07070a;
+    --bg-card: #0f0f16;
+    --bg-card2: #14141f;
+    --border: rgba(74,222,128,0.25);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --pixel: 'Press Start 2P', monospace;
+    --body: 'Rajdhani', sans-serif;
+    --mono: 'Share Tech Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    background: var(--bg-dark);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect x='0' y='0' width='10' height='10' fill='%234ade80'/%3E%3Crect x='10' y='10' width='10' height='10' fill='%234ade80'/%3E%3C/svg%3E") 5 5, crosshair;
+  }
+
+  /* ── STARS ── */
+  #stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .star { position: absolute; border-radius: 50%; animation: twinkle linear infinite; }
+  @keyframes twinkle {
+    0%,100% { opacity: 0.1; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2rem;
+    background: rgba(7,7,10,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 2px solid var(--border);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  }
+  .nav-logo {
+    font-family: var(--pixel); font-size: 0.75rem; color: var(--green);
+    text-shadow: 0 0 12px var(--green-glow);
+    letter-spacing: 1px;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--body); font-weight: 600; font-size: 1.1rem;
+    color: var(--muted); text-decoration: none; letter-spacing: 1px;
+    transition: color 0.2s, text-shadow 0.2s;
+  }
+  .nav-links a:hover { color: var(--green); text-shadow: 0 0 8px var(--green-glow); }
+  .nav-btn {
+    font-family: var(--pixel); font-size: 0.6rem; padding: 0.7rem 1.3rem;
+    background: var(--green-dark); color: #fff; border: 2px solid var(--green); border-radius: 4px;
+    cursor: pointer; transition: all 0.2s;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(74,222,128,0.2);
+  }
+  .nav-btn:hover { background: var(--green); box-shadow: 0 0 20px var(--green-glow); transform: scale(1.05); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; z-index: 1; padding: 8rem 2rem 4rem;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 520px;
+    gap: 3rem;
+    align-items: start;
+    width: 100%;
+    max-width: 1280px;
+  }
+  .hero-chat-box { padding-top: 0.1rem; }
+  .hero-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+  .hero-left .hero-eyebrow { align-self: flex-start; }
+  .hero-left .hero-subtitle { text-align: left; }
+  .hero-left .hero-btns { justify-content: flex-start; }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-left { align-items: center; text-align: center; }
+    .hero-left .hero-eyebrow { align-self: center; }
+    .hero-left .hero-subtitle { text-align: center; }
+    .hero-left .hero-btns { justify-content: center; }
+    .hero-chat-box { display: none; }
+  }
+  .hero-eyebrow {
+    font-family: var(--pixel); font-size: 0.6rem; color: var(--green);
+    letter-spacing: 3px; margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px var(--green-glow);
+    background: rgba(74,222,128,0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid rgba(74,222,128,0.3);
+  }
+  .glitch-container { padding: 1rem; margin-bottom: 1rem; overflow: visible; }
+  .hero-title {
+    font-family: var(--pixel);
+    font-size: clamp(1.6rem, 5.5vw, 3.5rem);
+    line-height: 1.5;
+    color: #fff;
+    margin: 0;
+  }
+  .hero-title span { color: var(--green); }
+  .glitch { position: relative; animation: glitch-anim 3.5s infinite; }
+  @keyframes glitch-anim {
+    0%, 92%, 100% { text-shadow: 4px 4px 0 var(--green-dark), 0 0 40px rgba(74,222,128,0.3); }
+    93% { text-shadow: -4px -2px 0 var(--redstone), 4px 2px 0 var(--diamond); }
+    95% { text-shadow: 4px -2px 0 var(--gold), -4px 2px 0 var(--redstone); }
+    97% { text-shadow: -2px 3px 0 var(--green), 2px -3px 0 var(--gold); }
+  }
+
+  /* ── PLAYER BADGE ── */
+  .player-count-badge {
+    font-family: var(--pixel); font-size: 0.65rem; color: #fff;
+    background: rgba(20,20,31,0.8); border: 2px solid var(--border);
+    padding: 0.6rem 1.2rem; border-radius: 50px; margin-bottom: 1.8rem;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: all 0.3s ease;
+  }
+  .pulse-dot {
+    width: 10px; height: 10px; background: var(--green);
+    border-radius: 50%; box-shadow: 0 0 10px var(--green-glow);
+  }
+  .pulse-dot.online { animation: livePulse 1.8s infinite; }
+  .pulse-dot.offline { background: var(--redstone) !important; box-shadow: 0 0 10px var(--redstone) !important; animation: none !important; }
+  @keyframes livePulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74,222,128,0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+  }
+
+  .hero-subtitle { font-size: 1.4rem; color: var(--muted); max-width: 620px; line-height: 1.6; margin-bottom: 2.5rem; font-weight: 500; }
+  .hero-btns { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+  .btn-primary {
+    font-family: var(--pixel); font-size: 0.65rem; padding: 1.1rem 2.2rem;
+    background: var(--green-dark); color: #fff; border: 2px solid var(--green);
+    border-radius: 4px; cursor: pointer; text-decoration: none;
+    transition: all 0.2s; display: inline-block;
+    box-shadow: 4px 4px 0 #0b5124, 0 0 20px rgba(74,222,128,0.2);
+  }
+  .btn-primary:hover { background: var(--green); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #0b5124, 0 0 30px rgba(74,222,128,0.5); }
+  .btn-secondary {
+    font-family: var(--pixel); font-size: 0.65rem; padding: 1.1rem 2.2rem;
+    background: transparent; color: var(--diamond); border: 2px solid var(--diamond);
+    border-radius: 4px; cursor: pointer; text-decoration: none;
+    transition: all 0.2s; display: inline-block;
+    box-shadow: 4px 4px 0 #0284c7;
+  }
+  .btn-secondary:hover { background: rgba(56,189,248,0.12); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #0284c7, 0 0 20px rgba(56,189,248,0.4); }
+
+  /* ── MINECRAFT SCENE ── */
+  .mc-scene {
+    margin: 3.5rem auto 0; position: relative; width: min(560px, 90vw); height: 220px;
+    background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
+  }
+  .ground { position: absolute; bottom: 0; left: 0; right: 0; height: 60px; overflow: hidden; }
+  .block { position: absolute; width: 48px; height: 48px; image-rendering: pixelated; border: 2px solid rgba(0,0,0,0.4); }
+  .grass { background: linear-gradient(to bottom, #5c8a1a 0%, #5c8a1a 25%, #8B6914 25%, #8B6914 100%); }
+  .dirt-block { background: #8B6914; }
+  .stone-block { background: #9ca3af; }
+  .diamond-block { background: linear-gradient(135deg, #38bdf8 25%, #0ea5e9 50%, #38bdf8 75%); }
+  .gold-block { background: linear-gradient(135deg, #fbbf24 25%, #f59e0b 50%, #fbbf24 75%); }
+
+  .steve { position: absolute; bottom: 60px; animation: steveWalk 8s linear infinite; }
+  @keyframes steveWalk {
+    0% { left: -60px; transform: scaleX(1); }
+    49% { left: calc(100% + 10px); transform: scaleX(1); }
+    50% { left: calc(100% + 10px); transform: scaleX(-1); }
+    99% { left: -60px; transform: scaleX(-1); }
+    100% { left: -60px; transform: scaleX(1); }
+  }
+  .creeper { position: absolute; bottom: 60px; right: 60px; animation: creeperBob 1s ease-in-out infinite; }
+  @keyframes creeperBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap { overflow: hidden; border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); background: rgba(74,222,128,0.06); padding: 0.8rem 0; position: relative; z-index: 1; }
+  .marquee-track { display: flex; gap: 3.5rem; animation: marquee 22s linear infinite; width: max-content; }
+  .marquee-track span { font-family: var(--pixel); font-size: 0.55rem; color: var(--green); white-space: nowrap; opacity: 0.9; text-shadow: 0 0 5px rgba(74,222,128,0.3); }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── SECTION COMMON ── */
+  section { position: relative; z-index: 1; }
+  .section-inner { max-width: 1100px; margin: 0 auto; padding: 6rem 1.5rem; }
+  .section-title { font-family: var(--pixel); font-size: clamp(0.9rem, 2.5vw, 1.4rem); color: var(--green); text-align: center; margin-bottom: 0.95rem; text-shadow: 0 0 14px var(--green-glow); }
+  .section-sub { text-align: center; color: var(--muted); font-size: 1.2rem; margin-bottom: 4rem; font-weight: 500; }
+
+  /* ── IP CARDS ── */
+  .ip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 2rem; }
+  .ip-card {
+    background: var(--bg-card); border: 2px solid var(--border);
+    border-radius: 12px; padding: 2.5rem 2rem; text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .ip-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(74,222,128,0.07) 0%, transparent 60%); pointer-events: none; }
+  .ip-card:hover { transform: translateY(-6px); border-color: var(--green); box-shadow: 0 12px 45px rgba(74,222,128,0.25); }
+  .ip-card .edition-badge { display: inline-block; font-family: var(--pixel); font-size: 0.55rem; padding: 0.45rem 1rem; border-radius: 4px; margin-bottom: 1.5rem; }
+  .badge-java { background: rgba(251,191,36,0.15); color: var(--gold); border: 1px solid var(--gold); }
+  .badge-bedrock { background: rgba(56,189,248,0.15); color: var(--diamond); border: 1px solid var(--diamond); }
+  .ip-label { font-size: 0.9rem; color: var(--muted); font-weight: 600; letter-spacing: 2px; margin-bottom: 0.6rem; text-transform: uppercase; }
+  .ip-value {
+    font-family: var(--mono); font-size: 1.4rem; color: #fff; font-weight: 700;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px; padding: 0.85rem 1.2rem; margin: 0.5rem 0;
+    cursor: pointer; transition: all 0.2s; letter-spacing: 1px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ip-value:hover { background: rgba(74,222,128,0.12); border-color: rgba(74,222,128,0.5); color: var(--green); }
+  .copy-icon { font-size: 1rem; opacity: 0.6; }
+  .ip-card .tip { font-size: 0.9rem; color: var(--muted); margin-top: 1rem; }
+  .online-dot { display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 50%; margin-right: 6px; animation: pulse 1.5s ease-in-out infinite; }
+  .online-dot.card-offline { background: var(--redstone) !important; animation: none !important; }
+  @keyframes pulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74,222,128,0.5); } 50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(74,222,128,0); } }
+  .status-row { display: flex; align-items: center; justify-content: center; font-size: 0.95rem; color: var(--green); margin-bottom: 1.4rem; font-weight: 600; letter-spacing: 1px; }
+
+  /* ── STEPS ── */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; }
+  .step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.8rem; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+  .step-num { font-family: var(--pixel); font-size: 0.6rem; color: var(--green); margin-bottom: 1.2rem; display: block; background: rgba(74,222,128,0.08); width: max-content; padding: 0.2rem 0.5rem; border-radius: 4px; }
+  .step h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.6rem; color: #fff; letter-spacing: 0.5px; }
+  .step p { font-size: 1rem; color: var(--muted); line-height: 1.6; }
+  .step code { font-family: var(--mono); font-size: 0.9rem; background: rgba(74,222,128,0.12); border: 1px solid var(--border); border-radius: 4px; padding: 0.15rem 0.5rem; color: var(--green); }
+
+  /* ── FEATURES ── */
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.5rem; }
+  .feature-card { background: var(--bg-card); border: 2px solid var(--border); border-radius: 10px; padding: 2.2rem 1.8rem; transition: all 0.2s; box-shadow: 0 5px 25px rgba(0,0,0,0.25); }
+  .feature-card:hover { border-color: var(--green); transform: translateY(-5px); box-shadow: 0 8px 30px rgba(74,222,128,0.15); }
+  .feature-icon { font-size: 2.5rem; margin-bottom: 1.2rem; display: block; }
+  .feature-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.6rem; color: #fff; }
+  .feature-card p { font-size: 1rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── VIDEO ── */
+  .showcase { background: var(--bg-card2); border: 2px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+  .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+  .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+  /* ── GALLERY ── */
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .gallery-item { border-radius: 8px; overflow: hidden; aspect-ratio: 1; background: var(--bg-card2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 3rem; transition: transform 0.2s, border-color 0.2s; cursor: pointer; position: relative; }
+  .gallery-item:hover { transform: scale(1.04); border-color: var(--green); }
+  .gallery-item .overlay { position: absolute; inset: 0; background: rgba(7,7,12,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; font-size: 0.65rem; font-family: var(--pixel); color: var(--green); text-align: center; padding: 1rem; line-height: 1.4; }
+  .gallery-item:hover .overlay { opacity: 1; }
+  .mc-bg-1 { background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #1a472a 100%); }
+  .mc-bg-2 { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); }
+  .mc-bg-3 { background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 50%, #450a0a 100%); }
+  .mc-bg-4 { background: linear-gradient(135deg, #1c1917 0%, #44403c 50%, #1c1917 100%); }
+  .mc-bg-5 { background: linear-gradient(135deg, #312e81 0%, #4c1d95 50%, #312e81 100%); }
+  .mc-bg-6 { background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #064e3b 100%); }
+
+  /* ── RULES ── */
+  .rules-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1rem; }
+  .rules-list li { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; display: flex; align-items: flex-start; gap: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+  .rules-list .rule-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .rules-list .rule-text { font-size: 1.05rem; color: var(--text); line-height: 1.5; }
+  .rules-list .rule-text strong { color: var(--green); }
+
+  /* ── TOAST ── */
+  #toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 999; background: #111; color: var(--green); border: 2px solid var(--green); border-radius: 6px; padding: 1rem 1.8rem; font-family: var(--pixel); font-size: 0.6rem; opacity: 0; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; box-shadow: 0 0 25px rgba(74,222,128,0.4); }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── FOOTER ── */
+  footer { position: relative; z-index: 1; border-top: 2px solid var(--border); background: #050508; padding: 4rem 1.5rem 2.5rem; text-align: center; }
+  footer .footer-logo { font-family: var(--pixel); font-size: 0.8rem; color: var(--green); margin-bottom: 1.2rem; text-shadow: 0 0 10px var(--green-glow); }
+  footer p { color: var(--muted); font-size: 1.05rem; }
+  footer .footer-note { margin-top: 2rem; font-size: 0.85rem; color: rgba(148,163,184,0.4); }
+
+  /* ── FLOATING BLOCKS ── */
+  .float-block { position: fixed; width: 24px; height: 24px; opacity: 0.12; pointer-events: none; z-index: 0; image-rendering: pixelated; animation: floatUp linear infinite; }
+  @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.12; } 90% { opacity: 0.08; } 100% { transform: translateY(-120px) rotate(360deg); opacity: 0; } }
+
+  /* ── CHAT BOX BASE STYLES ── */
+  .mc-chat-box { background: #1a1a2e; border: 2px solid #4a4a6a; border-radius: 6px; overflow: hidden; }
+  .mc-chat-header { height: 28px; background: #5865f2; display: flex; align-items: center; padding: 0 12px; gap: 8px; border-bottom: 1px solid #3a3a8a; }
+  .mc-chat-header-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: livePulse 1.8s infinite; }
+  .mc-chat-header-title { font-family: var(--pixel); font-size: 0.45rem; color: #fff; letter-spacing: 0.08em; }
+  .mc-chat-header-count { margin-left: auto; font-family: var(--mono); font-size: 0.75rem; color: rgba(255,255,255,0.7); }
+  .mc-chat-messages { padding: 10px 12px; height: 360px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; scrollbar-width: thin; scrollbar-color: #4a4a6a #1a1a2e; }
+  .mc-chat-messages::-webkit-scrollbar { width: 4px; }
+  .mc-chat-messages::-webkit-scrollbar-track { background: #1a1a2e; }
+  .mc-chat-messages::-webkit-scrollbar-thumb { background: #4a4a6a; border-radius: 2px; }
+  .mc-msg-line { font-family: var(--mono); font-size: 12.5px; line-height: 1.85; color: #f1f5f9; }
+  .mc-msg-bracket { color: #555; }
+  .mc-msg-time { color: #7dd3fc; }
+  .mc-msg-system { color: #fde68a; font-style: italic; }
+  .mc-msg-death { color: #f87171; }
+  .mc-msg-join { color: #4ade80; font-style: italic; }
+  .mc-msg-leave { color: #f87171; font-style: italic; }
+  .mc-chat-players { padding: 8px 12px; border-top: 1px solid #2d2d4e; background: #13132a; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 40px; }
+  .mc-players-label { font-family: var(--pixel); font-size: 0.45rem; color: #64748b; margin-right: 4px; white-space: nowrap; }
+  .mc-player-tag { font-family: var(--mono); font-size: 11px; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25); border-radius: 3px; padding: 2px 8px; color: #4ade80; white-space: nowrap; }
+  .mc-player-tag::before { content: '● '; font-size: 8px; }
+  .mc-no-players { font-family: var(--mono); font-size: 11px; color: #475569; font-style: italic; }
+  .mc-ws-status { padding: 6px 12px; background: #0f0f1a; border-top: 1px solid #2d2d4e; font-family: var(--mono); font-size: 10px; color: #475569; display: flex; align-items: center; gap: 6px; }
+  .mc-ws-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .mc-ws-dot.connected { background: #4ade80; }
+  .mc-ws-dot.disconnected { background: #ef4444; }
+  .mc-ws-dot.connecting { background: #fbbf24; animation: livePulse 1s infinite; }
+
+  /* ── WEB CHAT INPUT AREA ── */
+  .webchat-area {
+    border-top: 1px solid #2d2d4e;
+  }
+
+  /* Login box */
+  .webchat-login {
+    padding: 10px 12px;
+    background: #0f0f1a;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .webchat-login-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .webchat-input {
+    flex: 1;
+    background: #1a1a2e;
+    border: 1px solid #3a3a6a;
+    border-radius: 3px;
+    padding: 6px 10px;
+    color: #f1f5f9;
+    font-family: var(--mono);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .webchat-input:focus { border-color: rgba(74,222,128,0.6); }
+  .webchat-input::placeholder { color: #475569; }
+  .webchat-input.error { border-color: #ef4444; animation: shake 0.3s ease; }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+  .webchat-btn {
+    font-family: var(--pixel);
+    font-size: 0.42rem;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .webchat-btn-join {
+    background: #16a34a;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(22,163,74,0.4);
+  }
+  .webchat-btn-join:hover { background: #4ade80; color: #000; transform: translateY(-1px); }
+  .webchat-btn-send {
+    background: #5865f2;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(88,101,242,0.4);
+  }
+  .webchat-btn-send:hover { background: #7c87f5; transform: translateY(-1px); }
+
+  /* Send box - hidden until login */
+  .webchat-send {
+    padding: 10px 12px;
+    background: #0f0f1a;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .webchat-send-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .webchat-userinfo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #475569;
+  }
+  .webchat-username-badge {
+    background: rgba(74,222,128,0.12);
+    border: 1px solid rgba(74,222,128,0.3);
+    border-radius: 3px;
+    padding: 2px 8px;
+    color: #4ade80;
+    font-size: 11px;
+  }
+  .webchat-logout-btn {
+    background: none;
+    border: none;
+    color: #475569;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 0;
+    transition: color 0.2s;
+  }
+  .webchat-logout-btn:hover { color: #ef4444; }
+
+  /* Source badges */
+  .mc-source-badge {
+    display: inline-block;
+    font-family: var(--pixel);
+    font-size: 0.48rem;
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-right: 6px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+    letter-spacing: 0.03em;
+  }
+  .badge-web {
+    background: rgba(56,189,248,0.15);
+    border: 1px solid rgba(56,189,248,0.4);
+    color: #38bdf8;
+  }
+  .badge-mc {
+    background: rgba(74,222,128,0.12);
+    border: 1px solid rgba(74,222,128,0.35);
+    color: #4ade80;
+  }
+
+  /* ── LIVE CHAT SECTION ── */
+  #livechat { position: relative; z-index: 1; }
+  .chat-layout { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; align-items: start; }
+  .chat-info h2 { font-family: var(--pixel); font-size: clamp(0.7rem, 2vw, 1rem); color: var(--green); text-shadow: 0 0 14px var(--green-glow); margin-bottom: 1rem; }
+  .chat-info p { color: var(--muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.2rem; }
+  .chat-stat { display: flex; align-items: center; gap: 0.6rem; font-family: var(--mono); font-size: 0.95rem; color: var(--text); margin-bottom: 0.6rem; }
+  .chat-stat span { color: var(--green); font-weight: 700; }
+
+  @media (max-width: 900px) { .chat-layout { grid-template-columns: 1fr; } }
+  @media (max-width: 768px) { .nav-links { display: none; } .gallery { grid-template-columns: repeat(2, 1fr); } .hero-title { font-size: 1.5rem; } .mc-scene { height: 150px; } .ip-card { padding: 1.8rem 1.2rem; } }
+
+  .divider { height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); margin: 0 auto; max-width: 800px; }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div id="float-blocks"></div>
+
+<nav>
+  <div class="nav-logo">⛏ AkhandaSMP</div>
+  <ul class="nav-links">
+    <li><a href="#join">Join</a></li>
+    <li><a href="#how">How To</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#showcase">Gallery</a></li>
+    <li><a href="#livechat">Live Chat</a></li>
+  </ul>
+  <a href="#join" class="nav-btn">PLAY NOW</a>
+</nav>
+
+<section id="hero-sec">
+  <div id="hero">
+    <div class="hero-grid">
+
+      <!-- LEFT -->
+      <div class="hero-left">
+        <div class="hero-eyebrow">⚔ NOW ONLINE — JOIN TODAY ⚔</div>
+        <div class="glitch-container">
+          <h1 class="hero-title glitch">
+            AKHANDASMP<br><span>THE ETERNAL WORLD</span>
+          </h1>
+        </div>
+        <div class="player-count-badge" id="player-badge">
+          <span class="pulse-dot online" id="status-dot"></span>
+          <span id="player-count-text">Loading Players...</span>
+        </div>
+        <p class="hero-subtitle">Java & Bedrock crossplay SMP. Build, survive, and conquer with players across all platforms.</p>
+        <div class="hero-btns">
+          <a href="#join" class="btn-primary">⛏ GET THE IP</a>
+          <a href="#showcase" class="btn-secondary">◈ VIEW GALLERY</a>
+        </div>
+        <div class="mc-scene" style="margin-top:2.5rem;width:100%">
+          <div class="ground"><div id="blocks-row"></div></div>
+          <div class="steve">
+            <svg width="36" height="54" viewBox="0 0 18 27" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
+              <rect x="3" y="0" width="12" height="12" fill="#C68642"/>
+              <rect x="5" y="3" width="3" height="3" fill="#fff"/>
+              <rect x="10" y="3" width="3" height="3" fill="#fff"/>
+              <rect x="6" y="4" width="1" height="1" fill="#3a3aee"/>
+              <rect x="11" y="4" width="1" height="1" fill="#3a3aee"/>
+              <rect x="5" y="8" width="8" height="2" fill="#a05020"/>
+              <rect x="3" y="12" width="12" height="9" fill="#2255BB"/>
+              <rect x="0" y="12" width="3" height="9" fill="#C68642"/>
+              <rect x="15" y="12" width="3" height="9" fill="#C68642"/>
+              <rect x="3" y="21" width="5" height="6" fill="#334499"/>
+              <rect x="10" y="21" width="5" height="6" fill="#334499"/>
+            </svg>
+          </div>
+          <div class="creeper">
+            <svg width="36" height="54" viewBox="0 0 18 27" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
+              <rect x="3" y="0" width="12" height="12" fill="#43a032"/>
+              <rect x="5" y="3" width="3" height="3" fill="#1a1a1a"/>
+              <rect x="10" y="3" width="3" height="3" fill="#1a1a1a"/>
+              <rect x="6" y="7" width="6" height="2" fill="#1a1a1a"/>
+              <rect x="5" y="9" width="8" height="1" fill="#43a032"/>
+              <rect x="4" y="8" width="10" height="1" fill="#1a1a1a"/>
+              <rect x="3" y="12" width="12" height="10" fill="#3d9128"/>
+              <rect x="0" y="22" width="5" height="5" fill="#3d9128"/>
+              <rect x="5" y="22" width="2" height="5" fill="#1a1a1a"/>
+              <rect x="11" y="22" width="5" height="5" fill="#3d9128"/>
+              <rect x="11" y="22" width="2" height="5" fill="#1a1a1a"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Hero Chat Box -->
+      <div class="hero-chat-box">
+        <div class="mc-chat-box" style="border-color: rgba(74,222,128,0.4); box-shadow: 0 0 30px rgba(74,222,128,0.08);">
+          <div class="mc-chat-header">
+            <div class="mc-chat-header-dot"></div>
+            <span class="mc-chat-header-title">AKHANDASMP.DDNS.NET — LIVE CHAT</span>
+            <span class="mc-chat-header-count" id="hero-online-count">0/100 online</span>
+          </div>
+          <div class="mc-chat-messages" id="hero-chat-messages" style="height:480px;">
+            <div class="mc-msg-line"><span class="mc-msg-system">✦ Connecting to server...</span></div>
+          </div>
+          <div class="mc-chat-players" id="hero-players-area">
+            <span class="mc-players-label">ONLINE:</span>
+            <span class="mc-no-players">Loading...</span>
+          </div>
+
+          <!-- WEB CHAT: Hero box -->
+          <div class="webchat-area">
+            <!-- Step 1: Login -->
+            <div class="webchat-login" id="hero-login-area">
+              <span class="webchat-login-icon">💬</span>
+              <input type="text" class="webchat-input" id="hero-name-input"
+                placeholder="Naam daalo aur chat karo..." maxlength="16"
+                onkeydown="if(event.key==='Enter') loginChat('hero')">
+              <button class="webchat-btn webchat-btn-join" onclick="loginChat('hero')">JOIN</button>
+            </div>
+            <!-- Step 2: Send (shown after login) -->
+            <div class="webchat-send" id="hero-send-area">
+              <div class="webchat-userinfo">
+                <span>Chatting as</span>
+                <span class="webchat-username-badge" id="hero-username-display">—</span>
+                <button class="webchat-logout-btn" onclick="logoutChat('hero')" title="Change name">✕ logout</button>
+              </div>
+              <div class="webchat-send-row">
+                <input type="text" class="webchat-input" id="hero-msg-input"
+                  placeholder="Message type karo... (Enter)" maxlength="100"
+                  onkeydown="if(event.key==='Enter') sendChat('hero')">
+                <button class="webchat-btn webchat-btn-send" onclick="sendChat('hero')">SEND</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mc-ws-status" id="hero-ws-status">
+            <div class="mc-ws-dot connecting" id="hero-ws-dot"></div>
+            <span id="hero-ws-text">Connecting to bridge...</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee"></div>
+</div>
+
+<section id="join">
+  <div class="section-inner">
+    <div class="section-title">◈ SERVER IP ADDRESSES ◈</div>
+    <div class="section-sub">Click any IP below to copy it instantly</div>
+    <div class="ip-grid">
+      <div class="ip-card">
+        <div class="status-row" id="java-status-row"><span class="online-dot" id="java-dot"></span> ONLINE</div>
+        <span class="edition-badge badge-java">☕ JAVA EDITION</span>
+        <div class="ip-label">Server IP</div>
+        <div class="ip-value" onclick="copyText('akhandasmp.ddns.net','java-ip')">
+          <span id="java-ip">akhandasmp.ddns.net</span>
+          <span class="copy-icon">⎘</span>
+        </div>
+        <div class="ip-label" style="margin-top:1rem">Default Port</div>
+        <div class="ip-value" onclick="copyText('25565','java-port')">
+          <span id="java-port">25565</span>
+          <span class="copy-icon">⎘</span>
+        </div>
+        <p class="tip">✓ Works with Minecraft Java 1.20+</p>
+      </div>
+      <div class="ip-card">
+        <div class="status-row" id="bedrock-status-row"><span class="online-dot" id="bedrock-dot"></span> ONLINE</div>
+        <span class="edition-badge badge-bedrock">◆ BEDROCK EDITION</span>
+        <div class="ip-label">Server IP</div>
+        <div class="ip-value" onclick="copyText('akhandasmp.ddns.net','bedrock-ip')">
+          <span id="bedrock-ip">akhandasmp.ddns.net</span>
+          <span class="copy-icon">⎘</span>
+        </div>
+        <div class="ip-label" style="margin-top:1rem">Port</div>
+        <div class="ip-value" onclick="copyText('19132','bedrock-port')">
+          <span id="bedrock-port">19132</span>
+          <span class="copy-icon">⎘</span>
+        </div>
+        <p class="tip">✓ Works on PE, Console, Win10, PS/Xbox</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="how">
+  <div class="section-inner">
+    <div class="section-title">◈ HOW TO JOIN ◈</div>
+    <div class="section-sub">Get in-game in under 2 minutes</div>
+    <h3 style="font-family:var(--pixel);font-size:0.65rem;color:var(--gold);margin-bottom:1.5rem;letter-spacing:1px;">☕ JAVA EDITION</h3>
+    <div class="steps" style="margin-bottom:3.5rem">
+      <div class="step"><span class="step-num">STEP 01</span><h3>Launch Minecraft</h3><p>Open the Minecraft Java Launcher and make sure you're on version <code>1.20+</code></p></div>
+      <div class="step"><span class="step-num">STEP 02</span><h3>Multiplayer</h3><p>Click <code>Multiplayer</code> → <code>Add Server</code> from the main menu</p></div>
+      <div class="step"><span class="step-num">STEP 03</span><h3>Enter IP</h3><p>Paste <code>akhandasmp.ddns.net</code> as the server address and click Done</p></div>
+      <div class="step"><span class="step-num">STEP 04</span><h3>Connect!</h3><p>Double-click the server and you're in! Welcome to AkhandaSMP 🎉</p></div>
+    </div>
+    <h3 style="font-family:var(--pixel);font-size:0.65rem;color:var(--diamond);margin-bottom:1.5rem;letter-spacing:1px;">◆ BEDROCK EDITION</h3>
+    <div class="steps">
+      <div class="step"><span class="step-num">STEP 01</span><h3>Open Minecraft</h3><p>Launch Minecraft on any Bedrock platform (Mobile, Console, Windows)</p></div>
+      <div class="step"><span class="step-num">STEP 02</span><h3>Servers Tab</h3><p>Go to <code>Play</code> → <code>Servers</code> → scroll down and tap <code>Add Server</code></p></div>
+      <div class="step"><span class="step-num">STEP 03</span><h3>Enter Details</h3><p>IP: <code>akhandasmp.ddns.net</code> &nbsp; Port: <code>19132</code></p></div>
+      <div class="step"><span class="step-num">STEP 04</span><h3>Join & Play!</h3><p>Tap the server to connect. Say hi in chat when you spawn! 🎮</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="features">
+  <div class="section-inner">
+    <div class="section-title">◈ SERVER FEATURES ◈</div>
+    <div class="section-sub">Everything you need for the ultimate SMP experience</div>
+    <div class="features-grid">
+      <div class="feature-card"><span class="feature-icon">🌍</span><h3>Cross-Platform Play</h3><p>Java & Bedrock players in the same world. Mobile, PC, Console — everyone welcome.</p></div>
+      <div class="feature-card"><span class="feature-icon">🏙️</span><h3>Survival SMP</h3><p>Hardcore-style survival with land claiming, shops, and an active community.</p></div>
+      <div class="feature-card"><span class="feature-icon">🛡️</span><h3>Anti-Grief Protection</h3><p>Claim your land and protect your builds. Griefers get permanently banned.</p></div>
+      <div class="feature-card"><span class="feature-icon">💰</span><h3>Player Economy</h3><p>Trade, sell, and buy items. Build your fortune with our in-game economy system.</p></div>
+      <div class="feature-card"><span class="feature-icon">⚔️</span><h3>PvP Arenas</h3><p>Dedicated PvP zones. Test your skills against other players — no griefing outside.</p></div>
+      <div class="feature-card"><span class="feature-icon">🗺️</span><h3>Custom World Map</h3><p>A massive world with custom biomes and hidden secrets waiting to be discovered.</p></div>
+      <div class="feature-card"><span class="feature-icon">🎮</span><h3>Mini-Games</h3><p>Regular mini-game events, build battles, and treasure hunts with prizes.</p></div>
+      <div class="feature-card"><span class="feature-icon">🤝</span><h3>Friendly Community</h3><p>No toxicity. New-player friendly admins. Get help any time you need it.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="showcase">
+  <div class="section-inner">
+    <div class="section-title">◈ MINECRAFT SHOWCASE ◈</div>
+    <div class="section-sub">Feel the vibe — pure Minecraft greatness</div>
+    <div class="showcase" style="margin-bottom:2.5rem">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/MmB9b5njVbA?autoplay=0&rel=0&modestbranding=1&color=white" title="Minecraft Showcase" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="gallery">
+      <div class="gallery-item mc-bg-1"><svg width="64" height="64" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated"><rect x="0" y="0" width="8" height="3" fill="#5c8a1a"/><rect x="0" y="3" width="8" height="5" fill="#8B6914"/><rect x="1" y="1" width="1" height="1" fill="#3a6010"/><rect x="4" y="0" width="1" height="1" fill="#3a6010"/><rect x="6" y="2" width="1" height="1" fill="#3a6010"/></svg><div class="overlay">GRASS LANDS</div></div>
+      <div class="gallery-item mc-bg-2"><svg width="64" height="64" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated"><rect x="2" y="1" width="4" height="4" fill="#38bdf8"/><rect x="1" y="2" width="1" height="2" fill="#38bdf8"/><rect x="6" y="2" width="1" height="2" fill="#38bdf8"/><rect x="2" y="5" width="4" height="1" fill="#38bdf8"/><rect x="3" y="2" width="2" height="2" fill="#0ea5e9"/></svg><div class="overlay">DIAMOND CAVES</div></div>
+      <div class="gallery-item mc-bg-3"><svg width="64" height="64" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated"><rect x="3" y="0" width="2" height="3" fill="#ef4444"/><rect x="2" y="1" width="4" height="2" fill="#ef4444"/><rect x="1" y="5" width="6" height="2" fill="#f97316"/><rect x="0" y="6" width="8" height="2" fill="#ef4444"/><rect x="2" y="4" width="4" height="2" fill="#f97316"/><rect x="3" y="3" width="2" height="1" fill="#fbbf24"/></svg><div class="overlay">NETHER REALM</div></div>
+      <div class="gallery-item mc-bg-4"><svg width="64" height="64" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated"><rect x="1" y="1" width="6" height="6" fill="#9ca3af"/><rect x="2" y="2" width="4" height="4" fill="#6b7280"/><rect x="3" y="3" width="2" height="2" fill="#4b5563"/><rect x="1" y="3" width="1" height="1" fill="#6b7280"/><rect x="6" y="3" width="1" height="1" fill="#6b7280"/></svg><div class="overlay">STONE MINES</div></div>
+      <div class="gallery-item mc-bg-5"><svg width="64" height="64" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated"><rect x="1" y="4" width="6" height="3" fill="#7c3aed"/><rect x="3" y="2" width="2" height="2" fill="#a78bfa"/><rect x="2" y="3" width="4" height="1" fill="#8b5cf6"/><rect x="0" y="5" width="1" height="2" fill="#7c3aed"/><rect x="7" y="5" width="1" height="2" fill="#7c3aed"/><rect x="3" y="0" width="2" height="1" fill="#a78bfa"/></svg><div class="overlay">END PORTAL</div></div>
+      <div class="gallery-item mc-bg-6"><svg width="64" height="64" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated"><rect x="2" y="0" width="4" height="6" fill="#4ade80"/><rect x="1" y="1" width="6" height="4" fill="#22c55e"/><rect x="3" y="2" width="2" height="2" fill="#16a34a"/><rect x="0" y="5" width="8" height="3" fill="#15803d"/></svg><div class="overlay">JUNGLE BASE</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="rules">
+  <div class="section-inner">
+    <div class="section-title">◈ SERVER RULES ◈</div>
+    <div class="section-sub">Keep it fun for everyone — violations = ban</div>
+    <ul class="rules-list">
+      <li><span class="rule-icon">🚫</span><span class="rule-text"><strong>No Griefing</strong> — Destroying other players' builds is a permanent ban offense</span></li>
+      <li><span class="rule-icon">🤝</span><span class="rule-text"><strong>No Toxicity</strong> — Respect all players. Harassment, hate speech = immediate ban</span></li>
+      <li><span class="rule-icon">⚙️</span><span class="rule-text"><strong>No Cheating</strong> — Hacks, X-ray, duplication exploits are strictly forbidden</span></li>
+      <li><span class="rule-icon">🔇</span><span class="rule-text"><strong>No Spamming</strong> — Keep chat clean. No caps, no spam, no self-promotion</span></li>
+      <li><span class="rule-icon">🤫</span><span class="rule-text"><strong>No Stealing</strong> — Respect claimed land and chests. It's an SMP, not a raid server</span></li>
+      <li><span class="rule-icon">👑</span><span class="rule-text"><strong>Admin is Final</strong> — Admin decisions are final. Respect the staff team</span></li>
+      <li><span class="rule-icon">🌿</span><span class="rule-text"><strong>Be Helpful</strong> — Help new players. We're a community, not a competition</span></li>
+      <li><span class="rule-icon">😄</span><span class="rule-text"><strong>Have Fun!</strong> — That's what Minecraft is all about. Enjoy your time on AkhandaSMP!</span></li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="livechat">
+  <div class="section-inner">
+    <div class="section-title">◈ LIVE SERVER CHAT ◈</div>
+    <div class="section-sub">Real-time messages from AkhandaSMP — chat from website directly!</div>
+    <div class="chat-layout">
+
+      <!-- Left Info -->
+      <div class="chat-info">
+        <h2>⛏ IN-GAME CHAT</h2>
+        <p>Server ka live chat yahan dekho aur seedha website se message bhejo — game mein show hoga!</p>
+        <p>Apna naam daalo, message likho — <strong style="color:var(--gold)">[Web]</strong> badge ke saath game mein dikhega.</p>
+        <div class="chat-stat"><span>●</span> WebSocket port: <strong>8080</strong></div>
+        <div class="chat-stat"><span>●</span> Website → Game: <strong style="color:var(--gold)">ENABLED</strong></div>
+        <div class="chat-stat"><span>●</span> Max 50 messages stored</div>
+        <div class="chat-stat"><span>●</span> Auto-reconnect enabled</div>
+        <br>
+        <a href="#join" class="btn-primary" style="font-size:0.55rem;padding:0.9rem 1.6rem;">⛏ JOIN SERVER NOW</a>
+      </div>
+
+      <!-- Right: Section Chat Box -->
+      <div>
+        <div class="mc-chat-box">
+          <div class="mc-chat-header">
+            <div class="mc-chat-header-dot"></div>
+            <span class="mc-chat-header-title">AKHANDASMP — LIVE CHAT</span>
+            <span class="mc-chat-header-count" id="chat-online-count">0/100 online</span>
+          </div>
+          <div class="mc-chat-messages" id="mc-chat-messages">
+            <div class="mc-msg-line"><span class="mc-msg-system">✦ Connecting to server...</span></div>
+          </div>
+          <div class="mc-chat-players" id="mc-players-area">
+            <span class="mc-players-label">ONLINE:</span>
+            <span class="mc-no-players">Loading...</span>
+          </div>
+
+          <!-- WEB CHAT: Section box -->
+          <div class="webchat-area">
+            <div class="webchat-login" id="section-login-area">
+              <span class="webchat-login-icon">💬</span>
+              <input type="text" class="webchat-input" id="section-name-input"
+                placeholder="Naam daalo aur chat karo..." maxlength="16"
+                onkeydown="if(event.key==='Enter') loginChat('section')">
+              <button class="webchat-btn webchat-btn-join" onclick="loginChat('section')">JOIN</button>
+            </div>
+            <div class="webchat-send" id="section-send-area">
+              <div class="webchat-userinfo">
+                <span>Chatting as</span>
+                <span class="webchat-username-badge" id="section-username-display">—</span>
+                <button class="webchat-logout-btn" onclick="logoutChat('section')" title="Change name">✕ logout</button>
+              </div>
+              <div class="webchat-send-row">
+                <input type="text" class="webchat-input" id="section-msg-input"
+                  placeholder="Message type karo... (Enter)" maxlength="100"
+                  onkeydown="if(event.key==='Enter') sendChat('section')">
+                <button class="webchat-btn webchat-btn-send" onclick="sendChat('section')">SEND</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mc-ws-status" id="mc-ws-status">
+            <div class="mc-ws-dot connecting" id="mc-ws-dot"></div>
+            <span id="mc-ws-text">Connecting to bridge...</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">⛏ AKHANDASMP</div>
+  <p>Java IP: <strong style="color:var(--green)">akhandasmp.ddns.net</strong> &nbsp;|&nbsp; Bedrock Port: <strong style="color:var(--diamond)">19132</strong></p>
+  <p style="margin-top:0.6rem;color:var(--muted)">The Eternal World — Java & Bedrock Crossplay SMP</p>
+  <p class="footer-note">Not affiliated with Mojang Studios / Microsoft. Minecraft® is a trademark of Microsoft Corporation.</p>
+</footer>
+
+<div id="toast">✓ Copied to clipboard!</div>
+
+<script>
+// ── STARS ──
+const starEl = document.getElementById('stars');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div'); s.className='star';
+  const sz=Math.random()*2.5+0.5;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:#fff;animation-duration:${2+Math.random()*5}s;animation-delay:${Math.random()*5}s;`;
+  starEl.appendChild(s);
+}
+
+// ── FLOATING BLOCKS ──
+const floatEl=document.getElementById('float-blocks');
+const blockColors=['#8B6914','#9ca3af','#4ade80','#38bdf8','#fbbf24','#ef4444'];
+for(let i=0;i<18;i++){
+  const b=document.createElement('div'); b.className='float-block';
+  b.style.cssText=`left:${Math.random()*100}%;background:${blockColors[Math.floor(Math.random()*blockColors.length)]};animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*12}s;`;
+  floatEl.appendChild(b);
+}
+
+// ── GROUND BLOCKS ──
+const blocksRow=document.getElementById('blocks-row');
+const bTypes=['grass','dirt-block','stone-block','diamond-block','gold-block','dirt-block','grass'];
+const scene=document.querySelector('.mc-scene');
+const n=Math.floor((scene.offsetWidth||560)/48)+2;
+for(let i=0;i<n;i++){
+  const div=document.createElement('div');
+  div.className='block '+(bTypes[i%bTypes.length]);
+  div.style.cssText=`position:absolute;bottom:0;left:${i*48}px`;
+  blocksRow.appendChild(div);
+}
+
+// ── MARQUEE ──
+const marq=document.getElementById('marquee');
+const items=['⛏ SURVIVAL SMP','◈ JAVA + BEDROCK','⚔ PVP ARENAS','🏙 LAND CLAIMS','💰 PLAYER ECONOMY','🗺 CUSTOM WORLD','🎮 MINI GAMES','👑 ACTIVE ADMINS','🌍 CROSSPLAY ENABLED','🛡 ANTI-GRIEF','🤝 FRIENDLY COMMUNITY','💬 WEB CHAT ENABLED'];
+let html='';
+for(let r=0;r<2;r++) items.forEach(t=>{html+=`<span>${t}</span>`;});
+marq.innerHTML=html;
+
+// ── COPY ──
+function copyText(text,id){
+  navigator.clipboard.writeText(text).catch(()=>{
+    const el=document.createElement('textarea'); el.value=text;
+    document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+  });
+  const toast=document.getElementById('toast');
+  toast.textContent='✓ Copied: '+text; toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),2200);
+  const el=document.getElementById(id);
+  if(el){el.style.color='var(--green)';setTimeout(()=>el.style.color='',800);}
+}
+
+// ── SERVER STATUS ──
+async function updateServerStatus(){
+  const ip='akhandasmp.ddns.net';
+  const countText=document.getElementById('player-count-text');
+  const statusDot=document.getElementById('status-dot');
+  const javaRow=document.getElementById('java-status-row');
+  const bedrockRow=document.getElementById('bedrock-status-row');
+  try{
+    const res=await fetch(`https://api.mcsrvstat.us/2/${ip}`);
+    if(!res.ok)throw new Error();
+    const d=await res.json();
+    if(d.online){setOnline(d.players.online,d.players.max);return;}
+  }catch(e){}
+  try{
+    const res=await fetch(`https://api.minetools.eu/ping/${ip}`);
+    const d=await res.json();
+    if(!d.error){setOnline(d.players.online,d.players.max);return;}
+  }catch(e){}
+  setOffline();
+  function setOnline(o,m){
+    countText.textContent=`${o} / ${m} Players Online`;
+    statusDot.className='pulse-dot online';
+    javaRow.innerHTML=`<span class="online-dot"></span> ONLINE`; javaRow.style.color='var(--green)';
+    bedrockRow.innerHTML=`<span class="online-dot"></span> ONLINE`; bedrockRow.style.color='var(--green)';
+  }
+  function setOffline(){
+    countText.textContent='Server Offline';
+    statusDot.className='pulse-dot offline';
+    javaRow.innerHTML=`<span class="online-dot card-offline"></span> OFFLINE`; javaRow.style.color='var(--redstone)';
+    bedrockRow.innerHTML=`<span class="online-dot card-offline"></span> OFFLINE`; bedrockRow.style.color='var(--redstone)';
+  }
+}
+updateServerStatus();
+setInterval(updateServerStatus,25000);
+
+// ── LIVE CHAT WEBSOCKET ──
+(function(){
+  const WS_URL = 'wss://akhandasmp.ddns.net/ws';
+
+  const boxes = [
+    { id:'hero', messages:document.getElementById('hero-chat-messages'), players:document.getElementById('hero-players-area'), count:document.getElementById('hero-online-count'), dot:document.getElementById('hero-ws-dot'), text:document.getElementById('hero-ws-text') },
+    { id:'section', messages:document.getElementById('mc-chat-messages'), players:document.getElementById('mc-players-area'), count:document.getElementById('chat-online-count'), dot:document.getElementById('mc-ws-dot'), text:document.getElementById('mc-ws-text') }
+  ];
+
+  const playerColors=['#60a5fa','#f87171','#c084fc','#fbbf24','#34d399','#fb923c','#e879f9','#38bdf8'];
+  const colorMap={};
+  function getColor(name){
+    if(!colorMap[name]) colorMap[name]=playerColors[Object.keys(colorMap).length%playerColors.length];
+    return colorMap[name];
+  }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function addMsg(el,html){
+    if(!el)return;
+    const d=document.createElement('div'); d.className='mc-msg-line'; d.innerHTML=html;
+    el.appendChild(d);
+    while(el.children.length>80) el.removeChild(el.firstChild);
+    el.scrollTop=el.scrollHeight;
+  }
+
+  function updatePlayers(el,countEl,players,max){
+    if(!el)return;
+    if(countEl) countEl.textContent=`${players.length}/${max||100} online`;
+    if(players.length===0){
+      el.innerHTML='<span class="mc-players-label">ONLINE:</span><span class="mc-no-players">No players online</span>';
+    } else {
+      let h='<span class="mc-players-label">ONLINE:</span>';
+      players.forEach(p=>{
+        const c=getColor(p);
+        h+=`<span class="mc-player-tag" style="color:${c};border-color:${c}44">${esc(p)}</span>`;
+      });
+      el.innerHTML=h;
+    }
+  }
+
+  function setStatus(state,msg){
+    boxes.forEach(b=>{
+      if(b.dot) b.dot.className='mc-ws-dot '+state;
+      if(b.text) b.text.textContent=msg;
+    });
+  }
+
+  function broadcastMsg(html){ boxes.forEach(b=>addMsg(b.messages,html)); }
+
+  // Global ws reference for sendChat
+  let ws;
+  let reconnectTimer;
+
+  function connect(){
+    setStatus('connecting','Connecting to bridge...');
+    try{ ws=new WebSocket(WS_URL); } catch(e){ scheduleReconnect(); return; }
+    // Expose globally for sendChat
+    window._mcWs = ws;
+
+    ws.onopen=()=>{
+      setStatus('connected','Connected — live feed active');
+      boxes.forEach(b=>{
+        if(b.messages){
+          b.messages.innerHTML='';
+          addMsg(b.messages,'<span class="mc-msg-system">✦ Connected to AkhandaSMP live chat</span>');
+        }
+      });
+      clearTimeout(reconnectTimer);
+    };
+
+    ws.onmessage=(event)=>{
+      try{
+        const data=JSON.parse(event.data);
+        if(data.type==='chat'){
+          if(data.source==='web'){
+            const col = getColor(data.player);
+            const globeIcon = `<span class="mc-source-badge badge-web">WEB</span>`;
+            broadcastMsg(
+              `<span class="mc-msg-bracket">[</span><span class="mc-msg-time">${esc(data.time)}</span><span class="mc-msg-bracket">]</span> ` +
+              globeIcon +
+              `<span style="font-weight:600;color:${col}">${esc(data.player)}</span>` +
+              `<span style="color:#64748b"> » </span><span>${esc(data.message)}</span>`
+            );
+          } else {
+            // Game se aaya — green pickaxe icon
+            const col = getColor(data.player);
+            const pickaxeIcon = `<span class="mc-source-badge badge-mc"><svg width="9" height="9" viewBox="0 0 8 8" style="display:inline-block;vertical-align:middle;margin-right:3px;image-rendering:pixelated" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="8" height="3" fill="#5c8a1a"/><rect x="0" y="3" width="8" height="5" fill="#8B6914"/><rect x="1" y="1" width="1" height="1" fill="#3a6010"/><rect x="4" y="0" width="1" height="1" fill="#3a6010"/><rect x="6" y="2" width="1" height="1" fill="#3a6010"/></svg>MC</span>`;
+            broadcastMsg(
+              `<span class="mc-msg-bracket">[</span><span class="mc-msg-time">${esc(data.time)}</span><span class="mc-msg-bracket">]</span> ` +
+              pickaxeIcon +
+              `<span style="font-weight:600;color:${col}">${esc(data.player)}</span>` +
+              `<span style="color:#64748b">: </span><span>${esc(data.message)}</span>`
+            );
+          }
+        } else if(data.type==='players'){
+          boxes.forEach(b=>updatePlayers(b.players,b.count,data.players,data.max));
+        } else if(data.type==='join'){
+          broadcastMsg(`<span class="mc-msg-join">✦ ${esc(data.player)} joined the game</span>`);
+        } else if(data.type==='leave'){
+          broadcastMsg(`<span class="mc-msg-leave">✦ ${esc(data.player)} left the game</span>`);
+        } else if(data.type==='death'){
+          broadcastMsg(`<span class="mc-msg-death">✝ ${esc(data.message)}</span>`);
+        } else if(data.type==='server'){
+          broadcastMsg(`<span class="mc-msg-system">☆ ${esc(data.message)}</span>`);
+        }
+      }catch(e){}
+    };
+
+    ws.onclose=()=>{ setStatus('disconnected','Disconnected — retrying in 5s...'); scheduleReconnect(); };
+    ws.onerror=()=>{ setStatus('disconnected','Bridge not reachable'); };
+  }
+
+  function scheduleReconnect(){
+    clearTimeout(reconnectTimer);
+    reconnectTimer=setTimeout(connect,5000);
+  }
+
+  connect();
+})();
+
+// ── WEB CHAT FUNCTIONS ──
+const chatNames = {};  // boxId -> playerName
+
+function loginChat(boxId){
+  const nameInput = document.getElementById(boxId+'-name-input');
+  const name = nameInput.value.replace(/[^a-zA-Z0-9_]/g,'').trim();
+  if(!name){
+    nameInput.classList.add('error');
+    setTimeout(()=>nameInput.classList.remove('error'),500);
+    return;
+  }
+  chatNames[boxId] = name;
+  document.getElementById(boxId+'-login-area').style.display = 'none';
+  const sendArea = document.getElementById(boxId+'-send-area');
+  sendArea.style.display = 'flex';
+  document.getElementById(boxId+'-username-display').textContent = name;
+  document.getElementById(boxId+'-msg-input').focus();
+}
+
+function logoutChat(boxId){
+  chatNames[boxId] = null;
+  document.getElementById(boxId+'-send-area').style.display = 'none';
+  const loginArea = document.getElementById(boxId+'-login-area');
+  loginArea.style.display = 'flex';
+  document.getElementById(boxId+'-name-input').value = '';
+  document.getElementById(boxId+'-name-input').focus();
+}
+
+function sendChat(boxId){
+  const name = chatNames[boxId];
+  if(!name){ loginChat(boxId); return; }
+  if(!window._mcWs || window._mcWs.readyState !== WebSocket.OPEN){
+    // Show error in chat
+    const el = document.getElementById(
+      boxId === 'hero' ? 'hero-chat-messages' : 'mc-chat-messages'
+    );
+    const d = document.createElement('div'); d.className='mc-msg-line';
+    d.innerHTML='<span style="color:#ef4444">✗ Not connected to server. Please wait...</span>';
+    el.appendChild(d); el.scrollTop=el.scrollHeight;
+    return;
+  }
+  const msgInput = document.getElementById(boxId+'-msg-input');
+  const message = msgInput.value.trim();
+  if(!message) return;
+
+  window._mcWs.send(JSON.stringify({ type:'webchat', player:name, message }));
+  msgInput.value = '';
+  msgInput.focus();
+}
+</script>
+</body>
+</html>
